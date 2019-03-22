@@ -2,9 +2,9 @@ using System;
 
 namespace Windy.Core.Entities
 {
-    public class Customer
+    public class Role
     {
-        public Guid CustomerId { get; set; }
+        public Guid RoleId { get; set; }
 		public string Name { get; set; }
     }
 }
