@@ -1,0 +1,4 @@
+{
+  "RootNamespace": "Windy",
+  "EntityFrameworkCore": "true"
+}
