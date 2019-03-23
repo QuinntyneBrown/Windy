@@ -3,17 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Windy.Core.Entities
 {
-    public class WorkOrder
+    public class Order
     {
         [ForeignKey("Company")]
         public Guid CompanyId { get; set; }
-        public Guid WorkOrderId { get; set; }
+        public Guid OrderId { get; set; }
         [ForeignKey("Status")]
-        public Guid WorkOrderStatusId { get; set; }
+        public Guid OrderStatusId { get; set; }
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
         public float Amount { get; set; }
         public Company Company { get; set; }
-        public WorkOrderStatus Status { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

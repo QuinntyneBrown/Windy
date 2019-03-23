@@ -4,17 +4,17 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.WorkOrders
+namespace Windy.Api.Features.Orders
 {
-    public class GetWorkOrderByIdQuery
+    public class GetOrderByIdQuery
     {
         public class Request : IRequest<Response> {
-            public Guid WorkOrderId { get; set; }
+            public Guid OrderId { get; set; }
         }
 
         public class Response
         {
-            public WorkOrderDto WorkOrder { get; set; }
+            public OrderDto Order { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -25,7 +25,7 @@ namespace Windy.Api.Features.WorkOrders
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
                 => new Response()
                 {
-                    WorkOrder = (await _context.WorkOrders.FindAsync(request.WorkOrderId)).ToDto()
+                    Order = (await _context.Orders.FindAsync(request.OrderId)).ToDto()
                 };
         }
     }

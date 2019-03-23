@@ -2,9 +2,9 @@ using System;
 
 namespace Windy.Core.Entities
 {
-    public class AssignedWorkOrderStatus
+    public class AssignedOrderStatus
     {
-        public Guid AssignedWorkOrderStatusId { get; set; }
+        public Guid AssignedOrderStatusId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

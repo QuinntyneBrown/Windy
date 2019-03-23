@@ -10,13 +10,13 @@ namespace Windy.Core.Interfaces
         DbSet<Company> Companies { get;}
         DbSet<Customer> Customers { get; }
         DbSet<Employee> Employees { get;}
-        DbSet<AssignedWorkOrder> AssignedWorkOrders { get;}
-        DbSet<AssignedWorkOrderStatus> AssignedWorkOrderStatuses { get;}
+        DbSet<AssignedOrder> AssignedOrders { get;}
+        DbSet<AssignedOrderStatus> AssignedOrderStatuses { get;}
         DbSet<JobTitle> JobTitles { get;}
         DbSet<Role> Roles { get;}
         DbSet<User> Users { get;}
-        DbSet<WorkOrder> WorkOrders { get;}
-        DbSet<WorkOrderStatus> WorkOrderStatuses { get;}
+        DbSet<Order> Orders { get;}
+        DbSet<OrderStatus> OrderStatuses { get;}
         Task<int> SaveChangesAsync(CancellationToken token = default);
     }
 }

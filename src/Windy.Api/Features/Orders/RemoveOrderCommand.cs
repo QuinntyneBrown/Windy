@@ -5,21 +5,21 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.WorkOrders
+namespace Windy.Api.Features.Orders
 {
-    public class RemoveWorkOrderCommand
+    public class RemoveOrderCommand
     {
         public class Validator : AbstractValidator<Request>
         {
             public Validator()
             {
-                RuleFor(request => request.WorkOrderId).NotNull();
+                RuleFor(request => request.OrderId).NotNull();
             }
         }
 
         public class Request: IRequest
         {
-            public Guid WorkOrderId { get; set; }
+            public Guid OrderId { get; set; }
         }
 
         public class Handler : IRequestHandler<Request>
@@ -30,9 +30,9 @@ namespace Windy.Api.Features.WorkOrders
 
             public async Task<Unit> Handle(Request request, CancellationToken cancellationToken)
             {
-                var workOrder = await _context.WorkOrders.FindAsync(request.WorkOrderId);
+                var order = await _context.Orders.FindAsync(request.OrderId);
 
-                _context.WorkOrders.Remove(workOrder);
+                _context.Orders.Remove(order);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

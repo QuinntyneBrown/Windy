@@ -7,15 +7,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.AssignedWorkOrders
+namespace Windy.Api.Features.AssignedOrders
 {
-    public class GetAssignedWorkOrdersQuery
+    public class GetAssignedOrdersQuery
     {
         public class Request : IRequest<Response> { }
 
         public class Response
         {
-            public IEnumerable<AssignedWorkOrderDto> AssignedWorkOrders { get; set; }
+            public IEnumerable<AssignedOrderDto> AssignedOrders { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -27,7 +27,7 @@ namespace Windy.Api.Features.AssignedWorkOrders
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
                 =>  new Response()
                 {
-                    AssignedWorkOrders = await _context.AssignedWorkOrders.Select(x => x.ToDto()).ToArrayAsync()
+                    AssignedOrders = await _context.AssignedOrders.Select(x => x.ToDto()).ToArrayAsync()
                 };
         }
     }

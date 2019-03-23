@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Windy.Core.Entities
 {
-    public class WorkOrderStatus
+    public class OrderStatus
     {
-        public Guid WorkOrderStatusId { get; set; }        
+        public Guid OrderStatusId { get; set; }        
         public string Name { get; set; }
         public string Description { get; set; }
     }

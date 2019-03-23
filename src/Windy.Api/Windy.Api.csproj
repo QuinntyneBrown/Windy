@@ -22,8 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\AssignedOrders\" />
     <Folder Include="Features\Customers\" />
     <Folder Include="Features\Addresses\" />
+    <Folder Include="Features\Orders\" />
   </ItemGroup>
 
 </Project>

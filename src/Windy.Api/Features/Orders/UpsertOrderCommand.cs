@@ -6,25 +6,25 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.AssignedWorkOrders
+namespace Windy.Api.Features.Orders
 {
-    public class UpsertAssignedWorkOrderCommand
+    public class UpsertOrderCommand
     {
 
         public class Validator: AbstractValidator<Request> {
             public Validator()
             {
-                RuleFor(request => request.AssignedWorkOrder.AssignedWorkOrderId).NotNull();
+                RuleFor(request => request.Order.OrderId).NotNull();
             }
         }
 
         public class Request : IRequest<Response> {
-            public AssignedWorkOrderDto AssignedWorkOrder { get; set; }
+            public OrderDto Order { get; set; }
         }
 
         public class Response
         {
-            public Guid AssignedWorkOrderId { get;set; }
+            public Guid OrderId { get;set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -33,19 +33,16 @@ namespace Windy.Api.Features.AssignedWorkOrders
             public Handler(IAppDbContext context) => _context = context;
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken) {
-                var AssignedWorkOrder = await _context.AssignedWorkOrders.FindAsync(request.AssignedWorkOrder.AssignedWorkOrderId);
+                var order = await _context.Orders.FindAsync(request.Order.OrderId);
 
-                if (AssignedWorkOrder == null) {
-                    AssignedWorkOrder = new AssignedWorkOrder();
-                    _context.AssignedWorkOrders.Add(AssignedWorkOrder);
+                if (order == null) {
+                    order = new Order();
+                    _context.Orders.Add(order);
                 }
-
-
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                //fix
-                return new Response() { AssignedWorkOrderId = AssignedWorkOrder.EmployeeId };
+                return new Response() { OrderId = order.OrderId };
             }
         }
     }

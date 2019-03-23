@@ -15,6 +15,6 @@ namespace Windy.Core.Entities
         public string LastName { get; set; }
         public JobTitle Title { get; set; }
         public Company Company { get; set; }
-        public ICollection<AssignedWorkOrder> AssignedWorkOrders { get; set; }
+        public ICollection<AssignedOrder> AssignedOrders { get; set; }
     }
 }

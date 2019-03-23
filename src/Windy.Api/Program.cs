@@ -65,45 +65,65 @@ namespace Windy.Api
                     if (technicianJobTitle == null)
                         context.JobTitles.Add(new JobTitle { Name = "Technician" });
 
-                    var workOrderIncompleteStatus = context.WorkOrderStatuses.SingleOrDefault(x => x.Name == "Incomplete");
+                    var OrderIncompleteStatus = context.OrderStatuses.SingleOrDefault(x => x.Name == "Incomplete");
 
-                    if (workOrderIncompleteStatus == null)
-                        context.WorkOrderStatuses.Add(new WorkOrderStatus { Name = "Incomplete" });
+                    if (OrderIncompleteStatus == null)
+                        context.OrderStatuses.Add(new OrderStatus { Name = "Incomplete" });
 
-                    var workOrderCompleteStatus = context.WorkOrderStatuses.SingleOrDefault(x => x.Name == "Complete");
+                    var OrderCompleteStatus = context.OrderStatuses.SingleOrDefault(x => x.Name == "Complete");
 
-                    if (workOrderCompleteStatus == null)
-                        context.WorkOrderStatuses.Add(new WorkOrderStatus { Name = "Complete" });
+                    if (OrderCompleteStatus == null)
+                        context.OrderStatuses.Add(new OrderStatus { Name = "Complete" });
 
-                    var AssignedWorkOrderIncompleteStatus = context.AssignedWorkOrderStatuses.SingleOrDefault(x => x.Name == "Incomplete");
+                    var AssignedOrderIncompleteStatus = context.AssignedOrderStatuses.SingleOrDefault(x => x.Name == "Incomplete");
 
-                    if (AssignedWorkOrderIncompleteStatus == null)
-                        context.AssignedWorkOrderStatuses.Add(new AssignedWorkOrderStatus { Name = "Incomplete" });
+                    if (AssignedOrderIncompleteStatus == null)
+                        context.AssignedOrderStatuses.Add(new AssignedOrderStatus { Name = "Incomplete" });
 
-                    var AssignedWorkOrderCompleteStatus = context.WorkOrderStatuses.SingleOrDefault(x => x.Name == "Complete");
+                    var AssignedOrderCompleteStatus = context.OrderStatuses.SingleOrDefault(x => x.Name == "Complete");
 
-                    if (AssignedWorkOrderCompleteStatus == null)
-                        context.AssignedWorkOrderStatuses.Add(new AssignedWorkOrderStatus { Name = "Complete" });
+                    if (AssignedOrderCompleteStatus == null)
+                        context.AssignedOrderStatuses.Add(new AssignedOrderStatus { Name = "Complete" });
 
-                    User user = default;
+                    User manager = context.Users.SingleOrDefault(x => x.Username == configuration["Seed:DefaultUser:Username"]);
 
-                    if (context.Users.SingleOrDefault(x => x.Username == configuration["Seed:DefaultUser:Username"]) == null)
+                    if (manager == null)
                     {
-                        user = new User()
+                        manager = new User()
                         {
                             CompanyId = new Guid(configuration["Seed:DefaultUser:CompanyId"]),
                             Username = configuration["Seed:DefaultUser:Username"]
                         };
 
-                        user.Password = new PasswordHasher().HashPassword(user.Salt, configuration["Seed:DefaultUser:Password"]);
+                        manager.Password = new PasswordHasher().HashPassword(manager.Salt, configuration["Seed:DefaultUser:Password"]);
 
-                        user.UserRoles.Add(new UserRole {
+                        manager.UserRoles.Add(new UserRole {
+                            Role = context.Roles.Single(x => x.Name == "Manager")
+                        });
+
+                        context.Users.Add(manager);
+
+                    }
+
+                    User system = context.Users.SingleOrDefault(x => x.Username == configuration["Seed:SystemUser:Username"]);
+
+                    if (context.Users.SingleOrDefault(x => x.Username == configuration["Seed:SystemUser:Username"]) == null)
+                    {
+                        system = new User()
+                        {
+                            Username = configuration["Seed:SystemUser:Username"]
+                        };
+
+                        system.Password = new PasswordHasher().HashPassword(system.Salt, configuration["Seed:SystemUser:Password"]);
+
+                        system.UserRoles.Add(new UserRole
+                        {
                             Role = context.Roles.Single(x => x.Name == "System")
                         });
 
-                        context.Users.Add(user);
-
+                        context.Users.Add(system);
                     }
+
                     context.SaveChanges();
                 }
 
