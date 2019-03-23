@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>a1a15b11-6b08-4498-929f-0f06d8f7683d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,10 @@
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.0.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Companies\" />
-    <Folder Include="Features\Employees\" />
-    <Folder Include="Features\EmployeeWorkOrders\" />
-    <Folder Include="Features\WorkOrders\" />
+    <Folder Include="Features\Customers\" />
+    <Folder Include="Features\Addresses\" />
   </ItemGroup>
 
 </Project>

@@ -8,12 +8,12 @@ namespace Windy.Core.Interfaces
     public interface IAppDbContext
     {
         DbSet<Company> Companies { get;}
+        DbSet<Customer> Customers { get; }
         DbSet<Employee> Employees { get;}
-        DbSet<EmployeeWorkOrder> EmployeeWorkOrders { get;}
-        DbSet<EmployeeWorkOrderStatus> EmployeeWorkOrderStatuses { get;}
+        DbSet<AssignedWorkOrder> AssignedWorkOrders { get;}
+        DbSet<AssignedWorkOrderStatus> AssignedWorkOrderStatuses { get;}
         DbSet<JobTitle> JobTitles { get;}
         DbSet<Role> Roles { get;}
-        DbSet<Tenant> Tenants { get;}
         DbSet<User> Users { get;}
         DbSet<WorkOrder> WorkOrders { get;}
         DbSet<WorkOrderStatus> WorkOrderStatuses { get;}

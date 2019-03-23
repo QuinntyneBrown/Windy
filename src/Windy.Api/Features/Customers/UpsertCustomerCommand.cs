@@ -6,25 +6,25 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.EmployeeWorkOrders
+namespace Windy.Api.Features.Customers
 {
-    public class UpsertEmployeeWorkOrderCommand
+    public class UpsertCustomerCommand
     {
 
         public class Validator: AbstractValidator<Request> {
             public Validator()
             {
-                RuleFor(request => request.EmployeeWorkOrder.EmployeeWorkOrderId).NotNull();
+                RuleFor(request => request.Customer.CustomerId).NotNull();
             }
         }
 
         public class Request : IRequest<Response> {
-            public EmployeeWorkOrderDto EmployeeWorkOrder { get; set; }
+            public CustomerDto Customer { get; set; }
         }
 
         public class Response
         {
-            public Guid EmployeeWorkOrderId { get;set; }
+            public Guid CustomerId { get;set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -33,19 +33,17 @@ namespace Windy.Api.Features.EmployeeWorkOrders
             public Handler(IAppDbContext context) => _context = context;
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken) {
-                var employeeWorkOrder = await _context.EmployeeWorkOrders.FindAsync(request.EmployeeWorkOrder.EmployeeWorkOrderId);
+                var customer = await _context.Customers.FindAsync(request.Customer.CustomerId);
 
-                if (employeeWorkOrder == null) {
-                    employeeWorkOrder = new EmployeeWorkOrder();
-                    _context.EmployeeWorkOrders.Add(employeeWorkOrder);
+                if (customer == null) {
+                    customer = new Customer();
+                    _context.Customers.Add(customer);
                 }
-
 
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                //fix
-                return new Response() { EmployeeWorkOrderId = employeeWorkOrder.EmployeeId };
+                return new Response() { CustomerId = customer.CustomerId };
             }
         }
     }

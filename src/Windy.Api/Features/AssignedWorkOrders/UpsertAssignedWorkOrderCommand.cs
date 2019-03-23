@@ -6,25 +6,25 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.WorkOrders
+namespace Windy.Api.Features.AssignedWorkOrders
 {
-    public class UpsertWorkOrderCommand
+    public class UpsertAssignedWorkOrderCommand
     {
 
         public class Validator: AbstractValidator<Request> {
             public Validator()
             {
-                RuleFor(request => request.WorkOrder.WorkOrderId).NotNull();
+                RuleFor(request => request.AssignedWorkOrder.AssignedWorkOrderId).NotNull();
             }
         }
 
         public class Request : IRequest<Response> {
-            public WorkOrderDto WorkOrder { get; set; }
+            public AssignedWorkOrderDto AssignedWorkOrder { get; set; }
         }
 
         public class Response
         {
-            public Guid WorkOrderId { get;set; }
+            public Guid AssignedWorkOrderId { get;set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -33,16 +33,19 @@ namespace Windy.Api.Features.WorkOrders
             public Handler(IAppDbContext context) => _context = context;
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken) {
-                var workOrder = await _context.WorkOrders.FindAsync(request.WorkOrder.WorkOrderId);
+                var AssignedWorkOrder = await _context.AssignedWorkOrders.FindAsync(request.AssignedWorkOrder.AssignedWorkOrderId);
 
-                if (workOrder == null) {
-                    workOrder = new WorkOrder();
-                    _context.WorkOrders.Add(workOrder);
+                if (AssignedWorkOrder == null) {
+                    AssignedWorkOrder = new AssignedWorkOrder();
+                    _context.AssignedWorkOrders.Add(AssignedWorkOrder);
                 }
+
+
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new Response() { WorkOrderId = workOrder.WorkOrderId };
+                //fix
+                return new Response() { AssignedWorkOrderId = AssignedWorkOrder.EmployeeId };
             }
         }
     }

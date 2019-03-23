@@ -9,13 +9,14 @@ namespace Windy.Infrastructure.Data
         public AppDbContext(DbContextOptions options)
             : base(options) { }
 
+        public DbSet<Address> Addresses { get; private set; }
         public DbSet<Company> Companies { get; private set; }
+        public DbSet<Customer> Customers { get; private set; }
         public DbSet<Employee> Employees { get; private set; }
-        public DbSet<EmployeeWorkOrder> EmployeeWorkOrders { get; private set; }
-        public DbSet<EmployeeWorkOrderStatus> EmployeeWorkOrderStatuses { get; private set; }
+        public DbSet<AssignedWorkOrder> AssignedWorkOrders { get; private set; }
+        public DbSet<AssignedWorkOrderStatus> AssignedWorkOrderStatuses { get; private set; }
         public DbSet<JobTitle> JobTitles { get; private set; }
         public DbSet<Role> Roles { get; private set; }
-        public DbSet<Tenant> Tenants { get; private set; }
         public DbSet<User> Users { get; private set; }
         public DbSet<WorkOrder> WorkOrders { get; private set; }
         public DbSet<WorkOrderStatus> WorkOrderStatuses { get; private set; }
@@ -24,17 +25,17 @@ namespace Windy.Infrastructure.Data
         {
             modelBuilder.HasDefaultContainerName("WindyDocuments");
 
-            modelBuilder.Entity<EmployeeWorkOrder>()
+            modelBuilder.Entity<AssignedWorkOrder>()
                 .HasKey(t => new { t.EmployeeId, t.WorkOrderId });
 
-            modelBuilder.Entity<EmployeeWorkOrder>()
-                .OwnsOne<EmployeeWorkOrderStatus>("EmployeeWorkOrderStatus");
+            modelBuilder.Entity<UserRole>()
+                .HasKey(t => new { t.UserId, t.RoleId });
 
-            modelBuilder.Entity<WorkOrder>()
-                .OwnsOne<EmployeeWorkOrderStatus>("WorkOrderStatus");
-
-            modelBuilder.Entity<Employee>()
-                .HasOne<JobTitle>();
+            modelBuilder.Entity<Company>()
+                .OwnsOne<Address>("Address");
+            
+            modelBuilder.Entity<Customer>()
+                .OwnsOne<Address>("Address");
 
             base.OnModelCreating(modelBuilder);
         }

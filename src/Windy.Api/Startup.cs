@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+// Signature
+// https://dzone.com/articles/creating-a-signature-pad-using-canvas-and-aspnet-c
+
+using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Windy.Core.Interfaces;
+using Windy.Infrastructure.Data;
 
 namespace Windy.Api
 {
@@ -23,34 +23,73 @@ namespace Windy.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddNewtonsoftJson();
-        }
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder => builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(isOriginAllowed: _ => true)
+                .AllowCredentials()));
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
+            services.AddSwaggerGen(options =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Windy",
+                    Version = "v1",
+                    Description = "Windy REST API",
+                });
+                options.CustomSchemaIds(x => x.FullName);
             });
 
-            app.UseAuthorization();
+            services.AddScoped<IAppDbContext, AppDbContext>();
+
+            services.AddEntityFrameworkCosmos();
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+
+                services.AddLogging(builder =>
+                   builder.AddConsole()
+                          .AddFilter("", LogLevel.Debug));
+
+                var loggerFactory = services.BuildServiceProvider()
+                        .GetService<ILoggerFactory>();
+
+                options.UseCosmos(
+                    Configuration["CosmosDb:EndpointUrl"],
+                    Configuration["CosmosDb:PrivateKey"],
+                    Configuration["CosmosDb:DbName"])
+                    .UseLoggerFactory(loggerFactory)
+                    .EnableSensitiveDataLogging();
+            });
+
+            services.AddMediatR(typeof(Startup));
+
+            services.AddHttpContextAccessor();
+
+            services.AddMvc()
+                .AddNewtonsoftJson()
+                .SetCompatibilityVersion(CompatibilityVersion.Latest);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Windy API");
+                options.RoutePrefix = string.Empty;
+            });
+
+            app.UseCors("CorsPolicy");
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }

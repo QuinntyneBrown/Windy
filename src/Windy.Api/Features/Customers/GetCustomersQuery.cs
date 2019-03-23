@@ -7,15 +7,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Windy.Api.Features.EmployeeWorkOrders
+namespace Windy.Api.Features.Customers
 {
-    public class GetEmployeeWorkOrdersQuery
+    public class GetCustomersQuery
     {
         public class Request : IRequest<Response> { }
 
         public class Response
         {
-            public IEnumerable<EmployeeWorkOrderDto> EmployeeWorkOrders { get; set; }
+            public IEnumerable<CustomerDto> Customers { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -27,7 +27,7 @@ namespace Windy.Api.Features.EmployeeWorkOrders
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
                 =>  new Response()
                 {
-                    EmployeeWorkOrders = await _context.EmployeeWorkOrders.Select(x => x.ToDto()).ToArrayAsync()
+                    Customers = await _context.Customers.Select(x => x.ToDto()).ToArrayAsync()
                 };
         }
     }
