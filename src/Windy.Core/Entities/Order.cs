@@ -13,6 +13,7 @@ namespace Windy.Core.Entities
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
         public float Amount { get; set; }
+        public bool IsAssemblyRequired { get; set; }
         public Company Company { get; set; }
         public OrderStatus Status { get; set; }
     }

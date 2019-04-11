@@ -4,7 +4,8 @@ using System;
 namespace Windy.Api.Features.Customers
 {
     public class CustomerDto
-    {        
+    {
+        public Guid? CompanyId { get; set; }
         public Guid CustomerId { get; set; }        
     }
 

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Windy.Api.Features.Identity
 {
@@ -26,6 +27,7 @@ namespace Windy.Api.Features.Identity
         public class Handler : IRequestHandler<Request, Response>
         {
             private readonly IAppDbContext _context;
+            private readonly IConfiguration _configuration;
 
             private readonly ISecurityTokenFactory _securityTokenFactory;
 
@@ -33,9 +35,11 @@ namespace Windy.Api.Features.Identity
 
             public Handler(
                 IAppDbContext context, 
+                IConfiguration configuration,
                 IPasswordHasher passwordHasher,
                 ISecurityTokenFactory securityTokenFactory)
             {
+                _configuration = configuration;
                 _context = context;
                 _passwordHasher = passwordHasher;
                 _securityTokenFactory = securityTokenFactory;

@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windy.Api", "src\Windy.Api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windy.Infrastructure", "src\Windy.Infrastructure\Windy.Infrastructure.csproj", "{D40B7BE2-F3F8-45EF-A807-AAE4A5DBA065}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windy.Shared", "src\Windy.Shared\Windy.Shared.csproj", "{708E9092-81B0-41A1-A37D-D8CE06F1DAE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windy.FunctionApp", "src\Windy.FunctionsApp\Windy.FunctionApp.csproj", "{B16FF0D2-0C72-4AA2-850C-875D6DF378A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D40B7BE2-F3F8-45EF-A807-AAE4A5DBA065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D40B7BE2-F3F8-45EF-A807-AAE4A5DBA065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D40B7BE2-F3F8-45EF-A807-AAE4A5DBA065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708E9092-81B0-41A1-A37D-D8CE06F1DAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708E9092-81B0-41A1-A37D-D8CE06F1DAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708E9092-81B0-41A1-A37D-D8CE06F1DAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708E9092-81B0-41A1-A37D-D8CE06F1DAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B16FF0D2-0C72-4AA2-850C-875D6DF378A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16FF0D2-0C72-4AA2-850C-875D6DF378A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16FF0D2-0C72-4AA2-850C-875D6DF378A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16FF0D2-0C72-4AA2-850C-875D6DF378A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
