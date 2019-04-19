@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HubClient } from './core/hub-client.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'driver-app';
+
+  constructor(
+    private readonly _hubClient: HubClient
+  ) { }
+
+  title = 'Driver App';
+
+  ngOnInit() {
+    this._hubClient.connect();
+
+  }
 }

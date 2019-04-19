@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
-using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
+using Windy.Shared;
 
 namespace Windy.FunctionApp
 {
@@ -14,7 +15,6 @@ namespace Windy.FunctionApp
     {
         [FunctionName("GetSignalRInfo")]
         public static IActionResult GetSignalRInfo(
-            [AccessToken] ClaimsPrincipal principal,
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route ="signalrInfo/{hubName}")] HttpRequest req,   
             string hubName,
             IBinder binder,
@@ -23,7 +23,7 @@ namespace Windy.FunctionApp
         {
             try
             {
-                if (!principal.Identity.IsAuthenticated) return new UnauthorizedResult();
+                var principal = AuthorizationUtilities.ResolveClaimsPrincipal(req);
 
                 var info = binder.Bind<SignalRConnectionInfo>(new SignalRConnectionInfoAttribute
                 {
@@ -40,6 +40,30 @@ namespace Windy.FunctionApp
                 log.LogError(error);
 
                 return new BadRequestObjectResult(error);
+            }
+        }
+
+        [FunctionName("sendNotification")]
+        public static Task SendMessage(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "sendNotification/{userId}")]
+            object message,
+            string userId,
+            [SignalR(HubName = "notificationsHub")]IAsyncCollector<SignalRMessage> signalRMessages,
+            ILogger log)
+        {
+            try
+            {
+                return signalRMessages.AddAsync(
+                    new SignalRMessage
+                    {
+                        UserId = userId,
+                        Target = "sendNotification",
+                        Arguments = new[] { message }
+                    });
+            }
+            finally
+            {
+                log.LogError("Sned Notification Error");
             }
         }
     }
