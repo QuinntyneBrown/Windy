@@ -9,7 +9,7 @@ using Windy.Shared.Security;
 
 namespace Windy.Shared
 {
-    public static class AuthorizationUtilities
+    public static class AuthUtilities
     {
         private const string AUTH_HEADER_NAME = "Authorization";
         private const string BEARER_PREFIX = "Bearer ";

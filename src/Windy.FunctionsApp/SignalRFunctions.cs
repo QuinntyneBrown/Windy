@@ -23,7 +23,7 @@ namespace Windy.FunctionApp
         {
             try
             {
-                var principal = AuthorizationUtilities.ResolveClaimsPrincipal(req);
+                var principal = AuthUtilities.ResolveClaimsPrincipal(req);
 
                 var info = binder.Bind<SignalRConnectionInfo>(new SignalRConnectionInfoAttribute
                 {
@@ -46,6 +46,7 @@ namespace Windy.FunctionApp
         [FunctionName("sendNotification")]
         public static Task SendMessage(
             [HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "sendNotification/{userId}")]
+            HttpRequest req,
             object message,
             string userId,
             [SignalR(HubName = "notificationsHub")]IAsyncCollector<SignalRMessage> signalRMessages,
@@ -53,6 +54,8 @@ namespace Windy.FunctionApp
         {
             try
             {
+                var principal = AuthUtilities.ResolveClaimsPrincipal(req);
+
                 return signalRMessages.AddAsync(
                     new SignalRMessage
                     {
@@ -63,7 +66,7 @@ namespace Windy.FunctionApp
             }
             finally
             {
-                log.LogError("Sned Notification Error");
+                log.LogError("Send Notification Error");
             }
         }
     }
