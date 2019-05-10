@@ -10,7 +10,8 @@
   </ItemGroup>
   
   <ItemGroup>    
-    <ProjectReference Include="..\Windy.Core\Windy.Core.csproj" />
+    <ProjectReference Include="..\Windy.Core\Windy.Core.csproj" />    
+    <ProjectReference Include="..\Windy.Shared\Windy.Shared.csproj" />
   </ItemGroup>
 
 </Project>
