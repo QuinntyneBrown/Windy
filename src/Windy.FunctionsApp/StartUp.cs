@@ -1,16 +1,13 @@
-﻿using Windy.FunctionApp;
-using Windy.Shared.Security;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Hosting;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: WebJobsStartup(typeof(Startup))]
+[assembly: FunctionsStartup(typeof(Windy.FunctionApp.Startup))]
 namespace Windy.FunctionApp
 {
-    public class Startup : IWebJobsStartup
+    public class Startup : FunctionsStartup
     {
-        public void Configure(IWebJobsBuilder builder)
+        public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.AddAccessTokenBinding();
+
         }
     }
 }
